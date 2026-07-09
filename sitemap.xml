@@ -181,7 +181,13 @@
     <loc>https://carpentries-incubator.github.io/git-course/_layouts/workshop.html</loc>
   </url>
   <url>
+    <loc>https://carpentries-incubator.github.io/git-course/aio.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries-incubator.github.io/git-course/discuss.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/git-course/images.html</loc>
   </url>
   <url>
     <loc>https://carpentries-incubator.github.io/git-course/index.html</loc>
@@ -238,10 +244,22 @@
     <loc>https://carpentries-incubator.github.io/git-course/instructor/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://carpentries-incubator.github.io/git-course/instructor/aio.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries-incubator.github.io/git-course/instructor/discuss.html</loc>
   </url>
   <url>
+    <loc>https://carpentries-incubator.github.io/git-course/instructor/images.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries-incubator.github.io/git-course/instructor/index.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/git-course/instructor/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/git-course/instructor/key-points.html</loc>
   </url>
   <url>
     <loc>https://carpentries-incubator.github.io/git-course/instructor/profiles.html</loc>
@@ -251,6 +269,12 @@
   </url>
   <url>
     <loc>https://carpentries-incubator.github.io/git-course/instructor/slides.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/git-course/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/git-course/key-points.html</loc>
   </url>
   <url>
     <loc>https://carpentries-incubator.github.io/git-course/profiles.html</loc>
