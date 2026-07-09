@@ -1,9 +1,0 @@
----
-permalink: /reference/
----
-
-## Glossary
-
-FIXME
-
-
