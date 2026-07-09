@@ -1,0 +1,412 @@
+---
+title: Looking at history and differences
+teaching: 30
+exercises: 5
+---
+
+::::::::::::::::::::::::::::::::::::::: objectives
+
+- Be able to view history of changes to a repository
+- Be able to view differences between commits
+- Be able to recover a previous version of your project
+- Understand how and when to use tags to label commits
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::: questions
+
+- How can I see what changed between commits?
+- How do I go back to a previous version of my project?
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+### Looking at differences
+
+We should [reference some previous work][reference-previous-work] in the introduction section.
+Make the required changes, save both files but do not commit the changes yet.
+We can review the changes that we made using:
+
+```bash
+$ nano paper.md		# Cite previous studies in introduction
+$ nano refs.txt		# Add the reference to the database
+$ git diff		# View changes
+```
+
+This shows the difference between the latest copy in the repository and the
+unstaged changes we have made.
+
+- `-` means a line was deleted.
+- `+` means a line was added.
+- Note that a line that has been edited is shown as a removal of the old line and an
+  addition of the updated line.
+
+Looking at differences between commits is one of the most common activities.
+The `git diff` command itself has a number of [useful
+options](https://git-scm.com/docs/git-diff.html).
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Configure a visual diff tool
+
+There are many GUI-based tools available for looking at differences and editing files,
+which can be easier to work with.
+For example:
+
+- [Diffmerge](https://sourcegear.com/diffmerge/) (Free, cross-platform)
+- [WinMerge](https://winmerge.org/) - open source tool available for Windows;
+  To view differences with a GUI instead of using the command-line diff tool, first configure
+  git to use your chosen diff tool:
+
+```bash
+$ git config --global diff.tool diffmerge    # Set diffmerge as your visual diff tool
+$ git config --global difftool.prompt false  # Suppress confirmation before launching GUI
+```
+
+Note that these config steps are [slightly different][diffmerge on windows] for Windows.
+
+Then to use the GUI, use the following command instead of `git diff`:
+
+```bash
+$ git difftool
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+Now commit the change we made by adding the second reference:
+
+```bash
+$ git add paper.md refs.txt
+$ git commit			# "Cite previous work in introduction"
+```
+
+### Looking at our history
+
+To see the history of changes that we made to our repository (the most recent
+changes will be displayed at the top):
+
+```bash
+$ git log
+```
+
+```output
+commit 8bf67f3862828ec51b3fdad00c5805de934563aa
+Author: Your Name <your.name@manchester.ac.uk>
+Date:	Mon Jun 26 10:22:39 2017 +0100
+
+    Cite PCASP paper
+
+
+commit 4dd7f5c948fdc11814041927e2c419283f5fe84c
+Author: Your Name <your.name@manchester.ac.uk>
+Date:	Mon Jun 26 10:21:48 2017 +0100
+
+    Write introduction
+
+commit c38d2243df9ad41eec57678841d462af93a2d4a5
+Author: Your Name <your.name@manchester.ac.uk>
+Date:	Mon Jun 26 10:14:30 2017 +0100
+
+    Add author and title
+```
+
+The output shows (on separate lines):
+
+- the commit identifier (also called revision number) which
+  uniquely identifies the changes made in this commit
+- author
+- date
+- your commit message
+
+Git automatically assigns an identifier (e.g. 4dd7f5) to each commit
+made to the repository
+\--- we refer to this as *COMMITID* in the code blocks below.
+In order to see the changes made between any earlier commit and our
+current version, we can use  `git diff` followed by the commit identifier of the
+earlier commit:
+
+```bash
+$ git diff COMMITID		# View differences between current version and COMMITID
+```
+
+And, to see changes between two commits:
+
+```bash
+$ git diff OLDER_COMMITID NEWER_COMMITID
+```
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Where to create a Git repository?
+
+Avoid creating a Git repository within another Git repository.
+Nesting repositories in this way causes the 'outer' repository to
+track the contents of the 'inner' repository - things will get confusing!
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Exercise: "bio" Repository
+
+- Create a new Git repository on your computer called "bio"
+- Be sure not to create your new repo within the 'paper' repo (see above)
+- Write a three-line biography for yourself in a file called **me.txt**
+- Commit your changes
+- Modify one line, add a fourth line, then save the file
+- Display the differences between the updated file and the original
+
+You may wish to use the faded example below as a guide
+
+```bash
+cd ..                # Navigate out of the paper directory
+                     # Avoid creating a repo within a repo - confusion will arise!
+mkdir ___            # Create a new directory called 'bio'
+cd ___               # Navigate into the new directory
+git ____             # Initialise a new repository
+_____ me.txt         # Create a file and write your biography
+git ___ me.txt       # Add your biography file to the staging area
+git ______           # Commit your staged changes
+_____ me.txt         # Edit your file
+git ____ me.txt      # Display differences between your modified file and the last committed version
+```
+
+:::::::::::::::  solution
+
+## Solution
+
+```bash
+cd ..                # Navigate out of the paper directory
+                     # Avoid creating a repo within a repo - confusion will arise!
+mkdir bio            # Create a new directory
+cd bio               # Navigate into the new directory
+git init             # Initialise a new repository
+nano me.txt          # Create a file and write your biography
+git add me.txt       # Add your biography file to the staging area
+git commit           # Commit your staged changes
+nano me.txt          # Edit your file
+git diff me.txt      # Display differences between your modified file and the last committed version
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+### The `HEAD` and `master` pointers
+
+Let's take a look again at the output from `git log`.
+This time we'll use the `--decorate` option to display the pointers
+(your git set up might already display them by default).
+
+```bash
+$ git log --decorate
+```
+
+```output
+commit 8bf67f3862828ec51b3fdad00c5805de934563aa (HEAD -> master)
+Author: Your Name <your.name@manchester.ac.uk>
+Date:	Mon Jun 26 10:22:39 2017 +0100
+
+    Cite PCASP paper
+
+
+commit 4dd7f5c948fdc11814041927e2c419283f5fe84c
+Author: Your Name <your.name@manchester.ac.uk>
+Date:	Mon Jun 26 10:21:48 2017 +0100
+
+    Write introduction
+
+commit c38d2243df9ad41eec57678841d462af93a2d4a5
+Author: Your Name <your.name@manchester.ac.uk>
+Date:	Mon Jun 26 10:14:30 2017 +0100
+
+    Add author and title
+```
+
+You'll see there are two pointers, `HEAD` and `master` which label the most recent commit.
+
+- `HEAD` points to the commit you're currently on in the repo
+- `master` points to the tip of the *master* branch, and moves forward as you make new commits
+- `HEAD` normally points to a branch pointer
+
+### Going back in time with git
+
+We can use commit identifiers to set our working directory back to how it was
+at any commit.
+Doing so will mean the `HEAD` pointer no longer points to the branch tip --
+this scenario is known as a *detached HEAD*,
+and is for inspection and discardable experiments.
+
+![](fig/detached-head.svg){alt='Checking out a previous commit - detached head'}
+
+Before we go back to a previous version of our project,
+we'll just visualise our history in the same way as the diagram above.
+
+```bash
+$ git log --graph --decorate --oneline --all
+```
+
+```output
+* 6a48241 (HEAD, master) Cite previous work in introduction
+* ed26351 Cite PCASP paper
+* 7446b1d Write introduction
+* 4f572d5 Add title and author
+```
+
+Notice how `HEAD` and `master` point to the same commit.
+
+As we'll find out in [episode 6](06-branching.md),
+the **switch** command is used to switch between branches,
+but if we want to switch to a commit instead of a named branch,
+we'll need to use `switch` with the `-d` (detach) option.
+
+Let's go back to the very first commit we made:
+
+```bash
+$ git switch -d INITIAL_COMMITID
+```
+
+We will get something like this:
+
+```output
+HEAD is now at 8bd9133 Add title and author
+```
+
+And if we run
+
+```bash
+$ git status
+```
+
+we get a confirmation that we have a *detached HEAD*:
+
+```output
+HEAD detached at 8bd9133
+nothing to commit, working tree clean
+```
+
+If we look at `paper.md` we'll see it's our very first version. And if we
+look at our directory,
+
+```bash
+$ ls
+```
+
+```output
+paper.md
+```
+
+then we see that our `refs.txt` file is gone. But don't worry, while it's
+gone from our working directory, it's still in our repository.
+
+Let's visualise the repo again now we are a 'detached HEAD' state:
+
+```bash
+$ git log --graph --decorate --oneline --all
+```
+
+```output
+* 6a48241 (master) Reference second paper in introduction
+* ed26351 (HEAD) Reference Allen et al in introduction
+* 7446b1d Write introduction
+* 4f572d5 Add title and authors
+```
+
+Notice how `HEAD` no longer points to the same commit as `master`.
+Let's return to the current version of the project by switching back to `master`.
+
+```bash
+$ git switch master
+```
+
+See that `refs.txt` is back in the working directory,
+
+```bash
+$ ls
+```
+
+```output
+paper.md refs.txt
+```
+
+So we can get any version of our files from any point in time. In other words,
+we can set up our working directory back to any stage it was at when we made
+a commit.
+
+### Using tags as nicknames for commit identifiers
+
+Commit identifiers are long and cryptic. Git allows us to create tags, which
+act as easy-to-remember nicknames for commit identifiers.
+
+For example,
+
+```bash
+$ git tag PAPER_STUB
+```
+
+We can list tags by doing:
+
+```bash
+$ git tag
+```
+
+Let's explain to the reader [why this research is important][give-context]:
+
+```bash
+$ nano paper.md	# Give context for research
+$ git add paper.md
+$ git commit -m "Explain motivation for research" paper.md
+```
+
+We can switch back to our previous version using our tag instead of a commit
+identifier.
+
+```bash
+$ git switch -d PAPER_STUB
+```
+
+We might want to have a look around while we're here:
+
+```bash
+$ nano paper.md
+```
+
+And to return to the latest commit, we use
+
+```bash
+$ git switch master
+```
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Top tip: tag significant events
+
+When do you tag? Well, whenever you might want to get back to the exact
+version you've been working on. For a paper, this might be a version that has
+been submitted to an internal review, or has been submitted to a conference.
+For code this might be when it's been submitted to review, or has been
+released.
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+[reference-previous-work]: https://github.com/gcapes/git-course-paper/commit/add59ba7d0b963531195eb3774b79bb9bcd749d1#diff-0403ef06adf405f7b310b4518bd6a3559854f54c61676f676ce9cbfee7172ab6
+[diffmerge on windows]: https://stackoverflow.com/questions/42283336/how-to-configure-sourcegear-diffmerge-as-mergetool-and-difftool-for-github-windo
+[give-context]: https://github.com/gcapes/git-course-paper/commit/92f674de54c77afd7ae32342f9f03d2bdd8fb76d#diff-0403ef06adf405f7b310b4518bd6a3559854f54c61676f676ce9cbfee7172ab6
+
+
+:::::::::::::::::::::::::::::::::::::::: keypoints
+
+- `git log` shows the commit history
+- `git diff` displays differences between commits
+- `git switch -d` recovers previous states of the repo
+- `HEAD` points to the commit you have checked out
+- `master` points to the tip of the `master` branch
+- `git tag` allows commits to be given a descriptive label
+- `git difftool` shows changes using your configured diff GUI
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
