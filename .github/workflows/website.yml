@@ -3,8 +3,7 @@ on:
   push:
     branches:
       - gh-pages
-      - main
-      - git-course-transition  
+      - main  
   pull_request:
 jobs:
   build-website:
