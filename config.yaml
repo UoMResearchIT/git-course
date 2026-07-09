@@ -33,7 +33,7 @@ life_cycle: 'stable'
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://github.com/fishtree-attempt/git-course/'
+source: 'https://github.com/carpentries-incubator/git-course'
 
 # Default branch of your lesson
 branch: 'main'
@@ -96,7 +96,6 @@ profiles:
 
 
 carpentry_description: Lesson Description
-url: https://preview.carpentries.org/git-course
+url: 'https://carpentries-incubator.github.io/git-course'
 analytics: carpentries
 lang: en
-workbench-beta: yes
